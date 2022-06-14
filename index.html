@@ -14,48 +14,48 @@
         <h1>Weather Dashboard</h1>
     </header>
     <main class="flex-row justify-space-between">
+        <div class="row">
         <!-- left column -->
-        <div class="col-12 col-md-4" id="city-selection">
-            <!-- city search bar -->
-            <div id="city-search">
-                <h3 id="form-title">Search for a City:</h3>
-                <form id="city-form">
-                    <input name="city" id="city" type="text" autofocus="true" placeholder="San Diego" class="form-input"/>
-                    <button type="submit" class="search-btn">Search</button>
-                </form>
+            <div class="col-12 col-md-4" id="city-selection">
+                <!-- city search bar -->
+                <div id="city-search">
+                    <h3 id="form-title">Search for a City:</h3>
+                    <form id="city-form">
+                        <input name="city" id="city" type="text" autofocus="true" placeholder="San Diego" class="form-input"/>
+                        <button type="submit" class="search-btn">Search</button>
+                    </form>
+                </div>
+                <!-- featured cities -->
+                <div id="featured-city-buttons">
+                    <div id="city-buttons">
+                        <button class= "city-btn" data-city="austin">Austin</button>
+                        <button class= "city-btn" data-city="chicago">Chicago</button>
+                        <button class= "city-btn" data-city="new%20york">New York</button>
+                        <button class= "city-btn" data-city="orlando">Orlando</button>
+                        <button class= "city-btn" data-city="san%20francisco">San Francisco</button>
+                        <button class= "city-btn" data-city="seattle">Seattle</button>
+                        <button class= "city-btn" data-city="denver">Denver</button>
+                        <button class= "city-btn" data-city="atlanta">Atlanta</button>
+                    </div>
+                </div>
             </div>
-            <!-- featured cities -->
-            <div id="featured-city-buttons">
-                <div id="city-buttons">
-                    <button class= "city-btn" data-city="austin">Austin</button>
-                    <button class= "city-btn" data-city="chicago">Chicago</button>
-                    <button class= "city-btn" data-city="new%20york">New York</button>
-                    <button class= "city-btn" data-city="orlando">Orlando</button>
-                    <button class= "city-btn" data-city="san%20francisco">San Francisco</button>
-                    <button class= "city-btn" data-city="seattle">Seattle</button>
-                    <button class= "city-btn" data-city="denver">Denver</button>
-                    <button class= "city-btn" data-city="atlanta">Atlanta</button>
+
+            <!-- right column -->
+            <div class="col-12 col-md-8" id="weather-data">
+                <!-- weather today in selected city -->
+                <div class="col-12 row border">
+                    <div class="" id="weather-today"></div>
+                </div>
+                <!-- 5-day forecast in selected city -->
+                <div class="row" id="future-forecast">
+                    <h2 class="col-12" id="future-forecast-heading"></h2>
+                    <div class="d-flex" id="future-forecast-cards">
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- right column -->
-        <div class="col-12 col-md-8" id="weather-data">
-            <!-- weather today in selected city -->
-            <div class="row" id="weather-today">
-            </div>
-            <!-- 5-day forecast in selected city -->
-            <div class="row" id="future-forecast">
-                <h2>5-Day Forecast:</h2>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-
     </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>

@@ -13,15 +13,15 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <main">
+    <main class="flex-row justify-space-between">
         <!-- left column -->
-        <div id="city-selection">
+        <div class="col-12 col-md-4" id="city-selection">
             <!-- city search bar -->
             <div id="city-search">
-                <h3>Search for a City:</h3>
+                <h3 id="form-title">Search for a City:</h3>
                 <form id="city-form">
-                    <input name="city" id="city" type="text" autofocus="true" placeholder="San Diego"/>
-                    <button type="submit">Search</button>
+                    <input name="city" id="city" type="text" autofocus="true" placeholder="San Diego" class="form-input"/>
+                    <button type="submit" class="search-btn">Search</button>
                 </form>
             </div>
             <!-- featured cities -->

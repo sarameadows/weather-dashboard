@@ -6,9 +6,53 @@ var cityButtonsEl = document.querySelector("#city-buttons");
 
 const myKey = "e2a5d3faf3cdaf95fb1600353eedf99c";
 
-///display weather on page
-var displayWeather = function() {
+//get uv index
+var displayUV = function(lat, lon) {
+    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + myKey;
+    
+    fetch(apiUrl)
+        .then(function(response) {
+            response.json().then(function(data) {
+                console.log(data.current.uvi);
+                var todayUV = document.createElement("p");
+                todayUV.innerHTML = "UV Index: " + data.current.uvi;
+                if (data.current.uvi <=2) {
+                    todayUV.classList = ".bg-success";
+                } else if (data.current.uvi >= 3 && data.current.uvi <= 5) {
+                    todayUV.classList = ".bg-warning";
+                } else {
+                    todayUV.classList = ".bg-danger";
+                }
+                weatherTodayEl.appendChild(todayUV);
+                console.log(todayUV);
+            });
+        }); 
+}
 
+///display weather on page
+var displayWeather = function(weather) {
+    //current date element
+    var today = document.createElement("h3");
+    today.innerHTML = weather.name + "(" + moment().format("MMM D, YYYY") + ")";
+    weatherTodayEl.appendChild(today);
+    
+    //today's temp element
+    var todayTemp = document.createElement("p");
+    todayTemp.innerHTML = "Temp: " + weather.main.temp + "&#176 F";
+    // todayTemp.classList = "row";
+    weatherTodayEl.appendChild(todayTemp);
+
+    var todayWind = document.createElement("p");
+    todayWind.innerHTML = "Wind: " + weather.wind.speed + "MPH";
+    // todayWind.classList = "row";
+    weatherTodayEl.appendChild(todayWind);
+
+    var todayHumidity = document.createElement("p");
+    todayHumidity.innerHTML = "Humidity: " + weather.main.humidity+ "%";
+    // todayHumidity.classList = "row";
+    weatherTodayEl.appendChild(todayHumidity);
+
+    displayUV(weather.coord.lat, weather.coord.lon);
 }
 
 // get weather from the api url
@@ -23,7 +67,7 @@ var getWeather = function(city) {
             //request was successful
             if (response.ok) {
                 response.json().then(function(data) {
-                    console.log(data);
+                    displayWeather(data);
                 });
             } else {
                 alert("Error: City not found");
@@ -48,8 +92,6 @@ var formSubmitHandler = function(event) {
     } else {
         alert("Please enter a valid city");
     }
-
-    console.log(event);
 };
 
 // send the city from the featured buttons to the getWeather function

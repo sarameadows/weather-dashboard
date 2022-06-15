@@ -93,7 +93,6 @@ var getWeather = function(city) {
 var displayFutureForecast = function(forecast) {
     futureForecastHeadingEl.innerHTML = "5-Day Forecast:";
 
-    console.log(futureForecastHeadingEl);
     for (var i=0; i<5; i++){
         var futureDiv = document.createElement("div");
         futureDiv.classList = "card bg-primary text-white";
@@ -123,7 +122,6 @@ var displayFutureForecast = function(forecast) {
         futureHumidity.innerHTML = "Humidity: " + forecast.list[i].main.humidity+ "%";
         futureDiv.appendChild(futureHumidity);
 
-        console.log(futureDiv.innerHTML);
         futureForecastCardsEl.appendChild(futureDiv);
     }
 }
@@ -135,7 +133,7 @@ var getFutureForecast = function (lat, lon) {
 
     //format the url for the particular city in imperial units
     var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + myKey + "&units=imperial";
-    console.log(apiUrl);
+
     //make a request to the url
     fetch(apiUrl)
         .then(function(response) {
@@ -171,13 +169,11 @@ var load = function() {
             addButton(cities[i]);
         }
     }
-    console.log(cities);
 }
 
 //store the searched for city in local storage
 var store = function(city) {
     cities.push(city);
-    console.log(cities);
     localStorage.setItem("cities", JSON.stringify(cities));
     addButton(city);
 }
@@ -193,7 +189,6 @@ var addButton = function(city) {
 // send the city from the featured buttons to the getWeather function
 var buttonClickHandler = function(event) {
     var featuredCity = event.target.innerHTML;
-    console.log(featuredCity)
 
     if (featuredCity) {
         getWeather(featuredCity);

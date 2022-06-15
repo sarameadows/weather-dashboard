@@ -3,7 +3,9 @@ var cityInputEl = document.querySelector("#city");
 var weatherTodayEl = document.querySelector("#weather-today");
 var futureForecastCardsEl = document.querySelector("#future-forecast-cards");
 var cityButtonsEl = document.querySelector("#city-buttons");
-var futureForecastHeadingEl = $("#future-forecast-heading");
+var futureForecastHeadingEl = document.querySelector("#future-forecast-heading");
+var futureForecastEl = $("#future-forecast");
+var cities = [];
 
 const myKey = "e2a5d3faf3cdaf95fb1600353eedf99c";
 
@@ -16,14 +18,17 @@ var displayUV = function(lat, lon) {
         .then(function(response) {
             response.json().then(function(data) {
                 var todayUV = document.createElement("p");
-                todayUV.innerHTML = "UV Index: " + "<span id=index>" + data.current.uvi + "</span>";
+                var todayUVValue = document.createElement("span");
                 if (data.current.uvi <=2) {
-                    todayUV.classList = "bg-success";
+                    todayUVValue.classList = "bg-success";
                 } else if (data.current.uvi >= 3 && data.current.uvi <= 7) {
-                    todayUV.classList = "bg-warning";
+                    todayUVValue.classList = "bg-warning";
                 } else {
-                    todayUV.classList = "bg-danger";
+                    todayUVValue.classList = "bg-danger";
                 }
+                todayUVValue.innerHTML = "<span>" + data.current.uvi + "</span>";
+                todayUV.innerHTML = "UV Index: ";
+                todayUV.appendChild(todayUVValue);
                 weatherTodayEl.appendChild(todayUV);
             });
         }); 
@@ -45,17 +50,14 @@ var displayWeather = function(weather) {
     //today's temp element
     var todayTemp = document.createElement("p");
     todayTemp.innerHTML = "Temp: " + weather.main.temp + "&#176 F";
-    // todayTemp.classList = "row";
     weatherTodayEl.appendChild(todayTemp);
 
     var todayWind = document.createElement("p");
     todayWind.innerHTML = "Wind: " + weather.wind.speed + " MPH";
-    // todayWind.classList = "row";
     weatherTodayEl.appendChild(todayWind);
 
     var todayHumidity = document.createElement("p");
     todayHumidity.innerHTML = "Humidity: " + weather.main.humidity+ "%";
-    // todayHumidity.classList = "row";
     weatherTodayEl.appendChild(todayHumidity);
 
     displayUV(weather.coord.lat, weather.coord.lon);
@@ -64,6 +66,8 @@ var displayWeather = function(weather) {
 
 // get weather from the api url
 var getWeather = function(city) {
+    weatherTodayEl.innerHTML = "";
+
     //format the url for the particular city in imperial units
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + myKey + "&units=imperial";
 
@@ -86,12 +90,14 @@ var getWeather = function(city) {
 
 var displayFutureForecast = function(forecast) {
     futureForecastHeadingEl.innerHTML = "5-Day Forecast:";
+
+    console.log(futureForecastHeadingEl);
     for (var i=0; i<5; i++){
         var futureDiv = document.createElement("div");
-        futureDiv.classList = "card";
+        futureDiv.classList = "card bg-primary text-white";
 
         //get date for forecast
-        var date = document.createElement("h4");
+        var date = document.createElement("h3");
         date.innerHTML = moment().add(i+1, 'days').format("MM/DD/YYYY");
         futureDiv.appendChild(date);
 
@@ -121,6 +127,8 @@ var displayFutureForecast = function(forecast) {
 }
 
 var getFutureForecast = function (lat, lon) {
+    futureForecastCardsEl.innerHTML = "";
+
     //format the url for the particular city in imperial units
     var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + myKey + "&units=imperial";
     console.log(apiUrl);
@@ -142,22 +150,49 @@ var formSubmitHandler = function(event) {
 
     // if it is a real city get the weather, otherwise display error
     if(selectedCity) {
-        weatherTodayEl.innerHTML = "";
         getWeather(selectedCity);
         cityInputEl.value = "";
+        //set to local storage
+        store(selectedCity);
     } else {
         alert("Please enter a valid city");
     }
 };
 
+var load = function() {
+    if(localStorage.getItem("cities")){
+        cities = JSON.parse(localStorage.getItem("cities"));
+        for (var i = 0; i < cities.length; i++) {
+            addButton(cities[i]);
+        }
+    }
+    console.log(cities);
+}
+
+var store = function(city) {
+    cities.push(city);
+    console.log(cities);
+    localStorage.setItem("cities", JSON.stringify(cities));
+    addButton(city);
+}
+
+var addButton = function(city) {
+    var newButton = document.createElement("button");
+    newButton.classList.add("city-btn");
+    newButton.innerHTML = city;
+    cityButtonsEl.appendChild(newButton);
+}
+
 // send the city from the featured buttons to the getWeather function
 var buttonClickHandler = function(event) {
-    var featuredCity = event.target.getAttribute("data-city");
+    var featuredCity = event.target.innerHTML;
+    console.log(featuredCity)
 
     if (featuredCity) {
         getWeather(featuredCity);
     }
 }
 
+load();
 cityFormEl.addEventListener("submit", formSubmitHandler);
 cityButtonsEl.addEventListener("click", buttonClickHandler);

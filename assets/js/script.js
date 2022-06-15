@@ -66,6 +66,7 @@ var displayWeather = function(weather) {
 
 // get weather from the api url
 var getWeather = function(city) {
+    //clear previous data
     weatherTodayEl.innerHTML = "";
 
     //format the url for the particular city in imperial units
@@ -88,6 +89,7 @@ var getWeather = function(city) {
         });
 }
 
+//display the 5 day forecast
 var displayFutureForecast = function(forecast) {
     futureForecastHeadingEl.innerHTML = "5-Day Forecast:";
 
@@ -126,7 +128,9 @@ var displayFutureForecast = function(forecast) {
     }
 }
 
+//retrieve forecast weather data for selected city
 var getFutureForecast = function (lat, lon) {
+    // clear previous data
     futureForecastCardsEl.innerHTML = "";
 
     //format the url for the particular city in imperial units
@@ -159,6 +163,7 @@ var formSubmitHandler = function(event) {
     }
 };
 
+//load previously searched city data
 var load = function() {
     if(localStorage.getItem("cities")){
         cities = JSON.parse(localStorage.getItem("cities"));
@@ -169,6 +174,7 @@ var load = function() {
     console.log(cities);
 }
 
+//store the searched for city in local storage
 var store = function(city) {
     cities.push(city);
     console.log(cities);
@@ -176,6 +182,7 @@ var store = function(city) {
     addButton(city);
 }
 
+//add a button for previously searched cities
 var addButton = function(city) {
     var newButton = document.createElement("button");
     newButton.classList.add("city-btn");

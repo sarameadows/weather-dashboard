@@ -1,7 +1,7 @@
 var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#city");
 var weatherTodayEl = document.querySelector("#weather-today");
-var futureForecastCardsEl = document.querySelector("future-forecast-cards");
+var futureForecastCardsEl = document.querySelector("#future-forecast-cards");
 var cityButtonsEl = document.querySelector("#city-buttons");
 var futureForecastHeadingEl = $("#future-forecast-heading");
 
@@ -88,9 +88,10 @@ var displayFutureForecast = function(forecast) {
     futureForecastHeadingEl.innerHTML = "5-Day Forecast:";
     for (var i=0; i<5; i++){
         var futureDiv = document.createElement("div");
+        futureDiv.classList = "card";
 
         //get date for forecast
-        var date = document.createElement("h3");
+        var date = document.createElement("h4");
         date.innerHTML = moment().add(i+1, 'days').format("MM/DD/YYYY");
         futureDiv.appendChild(date);
 
